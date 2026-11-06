@@ -15,7 +15,7 @@ Built for the **Flip the Switch Hackathon** (WeMakeDevs x DevTools Academy x Swi
 
 ## What it does
 
-In most companies, a document such as a leave request or an expense claim passes through several authorities, and each document type has its own approval order. It is hard to tell where a document is, who has approved it, or why it was rejected.
+In most companies, a document such as a 'leave request' or an 'expense claim' passes through several authorities, and each document type has its own approval order. It is hard to tell where a document is, who has approved it, or why it was rejected.
 
 RouteX-AI runs this process inside team chat using Switch. An applicant uploads a document, a **router agent** reads it with OCR, identifies the document type and sends it through the right authorities in order, and a **tracker agent** answers status questions and keeps the final approval record.
 
