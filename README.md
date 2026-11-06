@@ -8,8 +8,6 @@ Built for the **Flip the Switch Hackathon** (WeMakeDevs x DevTools Academy x Swi
 
 **Demo video:** [Watch the demo](ADD-LINK-HERE)
 
-Built by Aditi.
-
 ---
 
 ## What it does
