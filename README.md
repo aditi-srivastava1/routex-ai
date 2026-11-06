@@ -1,28 +1,32 @@
 # RouteX-AI
-### AI-Powered Document Approval Routing System
 
-RouteX-AI is an AI-powered document approval routing system that automates document processing, classification, and multi-level approval workflows. It uses OCR to extract key information, routes documents to the appropriate authorities, and manages approval or rejection decisions along with remarks. It also tracks document status in real time and maintains structured approval records, ensuring a transparent, efficient, and well-organized workflow.
+### AI-powered document approval routing on Switch
 
-## Features
+**Upload a document. RouteX routes it, authorities approve it, and every step is recorded.**
 
-- **OCR-Based Extraction:** Extracts key information from submitted documents.
-- **Document Classification:** Identifies document types and determines the appropriate approval workflow.
-- **Automated Routing:** Routes documents to the relevant authorities in the correct sequence.
-- **Approval & Rejection Management:** Handles approval, rejection, and return decisions with remarks.
-- **Real-Time Tracking:** Keeps applicants informed about the current approval stage.
-- **Approval Records:** Maintains structured records of final decisions and approval history.
+Built for the **Flip the Switch Hackathon** (WeMakeDevs x DevTools Academy x Switch), **Track 1: Best Business Workflow**.
+
+**Demo video:** [Watch the demo](ADD-LINK-HERE)
+
+Built by Aditi.
+
+---
+
+## What it does
+
+In most companies, a document such as a leave request or an expense claim passes through several authorities, and each document type has its own approval order. It is hard to tell where a document is, who has approved it, or why it was rejected.
+
+RouteX-AI runs this process inside team chat using Switch. An applicant uploads a document, a **router agent** reads it with OCR, identifies the document type and sends it through the right authorities in order, and a **tracker agent** answers status questions and keeps the final approval record.
 
 ## Workflow
 
-1. Applicant submits a document in the Submissions room.
-2. Router Agent uses OCR to extract relevant information.
-3. The system identifies the document type and its predefined approval chain.
-4. The document is sent to the first authority.
-5. The authority approves, rejects, or returns the document with remarks.
-6. Approved documents move to the next authority until the approval chain is complete.
-7. Tracker Agent provides status updates and maintains the final approval record.
-
-## Document Routing Diagram
+1. The applicant uploads a document in the **Submissions** room.
+2. The router agent reads it with OCR and extracts the document name, type, applicant name and date.
+3. The router looks up the approval chain for that document type and posts the document in the first authority's room.
+4. The authority replies `@router approve` or `@router reject <remarks>`.
+5. On approval, the router moves the document to the next authority until the chain is complete. On rejection, it tells the applicant with the remarks.
+6. The tracker agent answers "where is my document?" and posts one entry per finished document in **Approval Records**.
+7. If the router cannot read a file or match its type, it asks the applicant instead of guessing.
 
 ```mermaid
 flowchart TD
@@ -33,81 +37,144 @@ flowchart TD
     E -->|Approve| F[Send to next authority]
     F --> E
     E -->|Reject| G[Notify applicant]
-    E -->|Return| H[Send back for correction]
     E -->|All approvals complete| I[Update approval records]
     G --> I
-    H --> J[Applicant resubmits]
-    J --> B
 ```
 
-## AI Agents
+## AI agents
 
-### 1. Router Agent
-
-- Reads submitted documents using OCR.
-- Extracts document name, type, applicant name, and date.
-- Identifies the predefined approval chain.
-- Routes documents to the appropriate authorities.
-- Handles approval, rejection, and return decisions with remarks.
-- Notifies applicants about document status and decisions.
-
-### 2. Tracker Agent
-
-- Tracks the current approval stage.
-- Shows which authorities have approved the document.
-- Responds to applicant status queries.
-- Maintains final approval and rejection records.
-
-## Approval Chain Configuration
-
-| Document Type | Approval Sequence |
+| Agent | What it does |
 |---|---|
-| Leave Application | Team Lead → HR Manager |
-| Expense Reimbursement | Team Lead → Finance Manager |
-| Purchase Request | Department Head → Finance Manager → COO |
-| Salary Advance Request | HR Manager → Finance Manager → COO |
+| **Router** | Reads uploads with OCR, extracts name, type, applicant and date, picks the approval chain, routes the document to each authority, handles approve and reject decisions with remarks, and notifies the applicant |
+| **Tracker** | Tracks the current approval stage, shows who has approved so far, answers status questions, and writes the final approval or rejection record |
 
-## Room Configuration
+The exact instructions for both agents are in the [`agents/`](agents/) folder.
 
-The system uses seven rooms for communication and workflow management.
+## Approval chains
 
-| Room | Purpose |
+| Document type | Approval sequence |
 |---|---|
-| Submissions | Document submissions and applicant communication |
-| Team Lead | Team Lead approvals |
-| Department Head | Purchase request approvals |
-| HR Manager | HR-related approvals |
-| Finance Manager | Financial approvals |
-| COO | Final-level approvals |
-| Approval Records | Final approval and rejection records |
+| Leave application | Team Lead → HR Manager |
+| Expense reimbursement | Team Lead → Finance Manager |
+| Purchase request | Department Head → Finance Manager → COO |
+| Salary advance request | HR Manager → Finance Manager → COO |
 
-## Technology Used
+## Rooms
 
-- **Switch:** Platform for configuring AI agents, communication rooms, and workflows.
-- **OCR (Optical Character Recognition):** Extracts text and key information from documents.
-- **AI Agents:** Handle document routing and approval tracking.
-- **Workflow Automation:** Manages multi-level approval processes and decision handling.
+| Room | Members | Purpose |
+|---|---|---|
+| Submissions | applicants, router | Document submissions and applicant communication |
+| Team Lead | router, authority | Team Lead approvals |
+| Department Head | router, authority | Purchase request approvals |
+| HR Manager | router, authority | HR-related approvals |
+| Finance Manager | router, authority | Financial approvals |
+| COO | router, authority | Final-level approvals |
+| Approval Records | tracker only | Final approval and rejection records |
 
-## How Switch Connects Agents and Users
+## How Switch is used
 
-Switch provides shared communication rooms where users and AI agents interact.
+Switch is central to the project, not an add-on:
 
-- **Rooms:** Common spaces for communication between applicants, authorities, and agents.
-- **Router Agent:** Receives submissions and coordinates document movement between authority rooms.
-- **Tracker Agent:** Provides status updates and maintains final approval records.
-- **Users:** Submit documents and provide approval decisions or remarks.
+- **Rooms are the workflow.** Each authority is a room, so a document "moving" means the router posts it in the next room.
+- **Agents join rooms like teammates.** The router and tracker are Switch agents, and each sees only the rooms it belongs to.
+- **Room membership is access control.** Only the tracker is in Approval Records, so the audit record has a single writer.
+- **People and agents share one history.** Applicants, authorities and agents work in the same chat, and the full trail stays in one place.
 
-For example, in the Team Lead room, the Router Agent shares a submitted document with the Team Lead. The Team Lead replies with a decision, and the Router Agent processes the response and moves the document to the next step when approved.
+Without Switch there would be no shared rooms, no agent membership and no per-room routing.
 
-## Project Structure
+## Built with
+
+Switch, Switch Console, opencode (agent engine), Mattermost (team chat), Docker, OCR through the agent.
+
+## How to run
+
+1. Install Docker and Switch Console, and start the local Switch server. See the [Switch getting-started guide](https://docs.switchagents.ai/switch-rooms/getting-started).
+2. Open the **my-buddy** chat in Switch Console.
+3. Send my-buddy the setup message below. It shows its plan first, so review it and reply to confirm.
+4. Upload a file from [`sampledata/`](sampledata/) in **Submissions**, and mention `@router` in the same message.
+5. In each authority room, reply `@router approve` or `@router reject <remarks>`.
+6. Check **Approval Records** for the final entry.
+
+<details>
+<summary>Setup message for my-buddy</summary>
+
+```
+I want to build a document approval routing system. Please set it up in Switch.
+
+1. Create two agents:
+
+- "router": When an applicant uploads a document file in the "Submissions" room, the router first reads the document using OCR and extracts:
+  - document type
+  - applicant name
+  - date
+Then it looks up the approval chain for that document type (listed in section 3) and posts the document in the first authority's room, stating the document name, type and current step.
+When an authority replies "approve", the router moves the document to the next authority in that document's chain.
+If the reply is "reject" or "return", the router tells the applicant in "Submissions" with the remarks.
+If the router cannot read the file, or the type is not in the list, it asks the applicant to reply with the correct type. Do not guess.
+The router must always state the document name, type and current step.
+
+- "tracker": Answers "where is my document?" with the current step and who has signed so far. When a document is fully approved or rejected, post ONE entry in "Approval Records" in exactly this format:
+Document: <name and type>
+Applicant: <name>
+Path: <authorities in order>
+Decision: <approved or rejected>
+Remarks: <any remarks>
+Date: <date>
+Post nothing else in that room.
+
+2. Authorities:
+- Team Lead
+- Department Head
+- HR Manager
+- Finance Manager
+- COO
+
+3. Approval chains by document type (each document type has its own order, using only the authorities above):
+- Leave application: Team Lead, then HR Manager
+- Expense reimbursement: Team Lead, then Finance Manager
+- Purchase request: Department Head, then Finance Manager, then COO
+- Salary advance request: HR Manager, then Finance Manager, then COO
+
+4. Create these rooms:
+- "Submissions": applicants and the router.
+- "Team Lead", "Department Head", "HR Manager", "Finance Manager" and "COO": the router and me.
+- "Approval Records": the tracker only.
+
+Do NOT create any other agents or rooms.
+Show me the changes before applying them.
+```
+
+</details>
+
+## Tested
+
+- **Test 1:** document approved through the full chain.
+- **Test 2:** approval with a remark.
+- **Test 3:** document rejected, then reapproved after resubmission.
+
+Screenshots are in the [`screenshots/`](screenshots/) folder.
+
+## Limitations
+
+- Approval is a chat approval and an audit record, not a legal signature.
+- OCR works best on typed PDFs and clear images. For unclear documents, the router asks the applicant for the type instead of guessing.
+- The agents follow written instructions, so routing state is kept in the room history and not in a separate database.
+- The router acts only on messages addressed to it, so use `@router approve`.
+- Tested with a small set of sample documents, not at scale.
+
+## Future work
+
+- A custom router agent built on the Switch agent protocol, with chains and statuses stored in a database.
+- Stamping approvals onto the PDF.
+- Reminders when a document waits too long with one authority.
+
+## Project structure
 
 ```text
 RouteX-AI/
-│
 ├── agents/
 │   ├── router.md
 │   └── tracker.md
-│
 ├── sampledata/
 │   ├── ExpenseReimbursement.pdf
 │   ├── Purchaserequest.pdf
@@ -115,64 +182,9 @@ RouteX-AI/
 │   ├── Salaryadvancerequest.pdf
 │   ├── sample_leave_application.pdf
 │   └── unclear_sample_document.pdf
-│
 ├── screenshots/
 │   ├── Test-1 (Approve Document)/
 │   ├── Test-2 (Approve+Remark)/
 │   └── Test-3(Reject Document+Reapproval)/
-│
 └── README.md
 ```
-
-## Project Structure Diagram
-
-```mermaid
-flowchart TD
-    A[RouteX-AI] --> B[agents]
-    A --> C[sampledata]
-    A --> D[screenshots]
-    A --> E[README.md]
-
-    B --> F[router.md]
-    B --> G[tracker.md]
-
-    C --> H[Sample PDF Documents]
-
-    D --> I[Test-1: Approve Document]
-    D --> J[Test-2: Approve with Remark]
-    D --> K[Test-3: Reject and Reapproval]
-```
-## Hackathon
-Built for the Flip the Switch Hackathon (WeMakeDevs x DevTools Academy x Switch), Track 1: Best Business Workflow.
-Demo video: <add link>
-
-## How to Run
-1. Install Docker and Switch Console, and start the local Switch server (see the Switch docs: https://docs.switchagents.ai/switch-rooms/getting-started).
-2. Open the my-buddy chat in Switch Console.
-3. Ask my-buddy to create the router and tracker agents, the seven rooms and the approval chains listed above. The agent instructions are in the agents/ folder.
-4. Upload a file from sampledata/ in the Submissions room and mention @router in the same message.
-5. In each authority room, reply "@router approve" or "@router reject <remarks>".
-6. Check Approval Records for the final entry.
-
-## Tested
-- Test 1: document approved through the full chain.
-- Test 2: approval with a remark.
-- Test 3: document rejected, then resubmitted and approved.
-Screenshots are in the screenshots/ folder.
-
-## Limitations
-- Approval is a chat approval and an audit record, not a legal signature.
-- OCR works best on typed PDFs and clear images. For unclear documents, the router asks the applicant for the type instead of guessing.
-- The agents follow written instructions, so routing state is kept in the room history and not in a separate database.
-- The router acts only on messages addressed to it, so use "@router approve".
-
-## Future Work
-- A custom router agent on the Switch agent protocol, with chains and statuses in a database.
-- Stamping approvals onto the PDF.
-- Reminders when a document waits too long with one authority.
-
-
-
-## Purpose
-
-To simplify document approvals by reducing manual coordination, improving transparency, and providing structured tracking throughout the approval process.
