@@ -142,6 +142,36 @@ flowchart TD
     D --> J[Test-2: Approve with Remark]
     D --> K[Test-3: Reject and Reapproval]
 ```
+## Hackathon
+Built for the Flip the Switch Hackathon (WeMakeDevs x DevTools Academy x Switch), Track 1: Best Business Workflow.
+Demo video: <add link>
+
+## How to Run
+1. Install Docker and Switch Console, and start the local Switch server (see the Switch docs: https://docs.switchagents.ai/switch-rooms/getting-started).
+2. Open the my-buddy chat in Switch Console.
+3. Ask my-buddy to create the router and tracker agents, the seven rooms and the approval chains listed above. The agent instructions are in the agents/ folder.
+4. Upload a file from sampledata/ in the Submissions room and mention @router in the same message.
+5. In each authority room, reply "@router approve" or "@router reject <remarks>".
+6. Check Approval Records for the final entry.
+
+## Tested
+- Test 1: document approved through the full chain.
+- Test 2: approval with a remark.
+- Test 3: document rejected, then resubmitted and approved.
+Screenshots are in the screenshots/ folder.
+
+## Limitations
+- Approval is a chat approval and an audit record, not a legal signature.
+- OCR works best on typed PDFs and clear images. For unclear documents, the router asks the applicant for the type instead of guessing.
+- The agents follow written instructions, so routing state is kept in the room history and not in a separate database.
+- The router acts only on messages addressed to it, so use "@router approve".
+
+## Future Work
+- A custom router agent on the Switch agent protocol, with chains and statuses in a database.
+- Stamping approvals onto the PDF.
+- Reminders when a document waits too long with one authority.
+
+
 
 ## Purpose
 
