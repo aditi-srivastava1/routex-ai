@@ -8,10 +8,6 @@ Built for the **Flip the Switch Hackathon** (WeMakeDevs x DevTools Academy x Swi
 
 **Demo video:** [Watch the demo](ADD-LINK-HERE)
 
-<<<<<<< HEAD
-=======
-Built by Aditi.
-
 ![Agents and rooms set up in Switch (1)](screenshots/SwitchSetup1.png)
 ![Agents and rooms set up in Switch (2)](screenshots/SwitchSetup2.png)
 
