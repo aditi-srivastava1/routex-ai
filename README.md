@@ -13,9 +13,6 @@ Built for the **Flip the Switch Hackathon** (WeMakeDevs x DevTools Academy x Swi
 
 *The router and tracker agents and the seven rooms, set up in Switch.*
 
->>>>>>> 9276139 (Add setup screenshots to README)
----
-
 ## What it does
 
 In most companies, a document such as a leave request or an expense claim passes through several authorities, and each document type has its own approval order. It is hard to tell where a document is, who has approved it, or why it was rejected.
