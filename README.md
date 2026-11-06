@@ -188,8 +188,3 @@ RouteX-AI/
 │   ├── Test-2 (Approve+Remark)/
 │   └── Test-3(Reject Document+Reapproval)/
 └── README.md
-<<<<<<< HEAD
-```
-=======
-```
->>>>>>> 9276139 (Add setup screenshots to README)
