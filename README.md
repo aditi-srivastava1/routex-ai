@@ -1,2 +1,2 @@
 # routex-ai
-RouteX-AI is an AI-powered document approval system that automatically reads, classifies, and routes documents to the right authorities for approval. It also tracks document status, manages approval workflows, and maintains records, making the approval process faster, simpler, and more transparent.
+RouteX-AI is an AI-powered document approval routing system that automates document processing, classification, and multi-level approval workflows. It uses OCR to extract key information, routes documents to the appropriate authorities, and manages approval or rejection decisions along with remarks. It also tracks document status in real time and maintains structured approval records, ensuring a transparent, efficient, and well-organized workflow.
