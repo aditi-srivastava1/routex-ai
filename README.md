@@ -6,7 +6,7 @@
 
 Built for the **Flip the Switch Hackathon** (WeMakeDevs x DevTools Academy x Switch), **Track 1: Best Business Workflow**.
 
-**Demo video:** [Watch the demo](ADD-LINK-HERE)
+**Demo video:** [Watch the demo](https://youtu.be/uWPkHbKewX0)
 
 ![Agents and rooms set up in Switch (1)](screenshots/SwitchSetup1.png)
 ![Agents and rooms set up in Switch (2)](screenshots/SwitchSetup2.png)
